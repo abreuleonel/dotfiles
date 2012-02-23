@@ -1,6 +1,7 @@
 here=`pwd`
 echo 'Deletando arquivos antigos'
 rm -Rf $HOME/.bash_profile
+rm -Rf $HOME/.bashrc
 rm -Rf $HOME/.inputrc
 rm -Rf $HOME/.gemrc
 rm -Rf $HOME/.rspec
@@ -13,6 +14,7 @@ echo 'Adicionando novos arquivos'
 clear
 echo 'Adicionando novos arquivos'
 ln -s $here/bash_profile $HOME/.bash_profile
+ln -s $here/.bash_profile $HOME/.bashrc
 ln -s $here/inputrc $HOME/.inputrc
 ln -s $here/gemrc $HOME/.gemrc
 ln -s $here/rspec $HOME/.rspec
