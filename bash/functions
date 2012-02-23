@@ -1,0 +1,116 @@
+title() {
+  echo -ne "\033]0;$@\007";
+}
+
+reload() {
+  source ~/.bash_profile;
+}
+
+git_status(){
+  if [[ "$1" != "" ]]; then
+    local CURRENT_DIR=`pwd`
+    cd $1
+  fi
+
+  local STATUS=`git status 2>/dev/null`
+  local PROMPT_STATUS=""
+  local STATE=""
+  local NOTHING_TO_COMMIT="# Initial commit"
+  local BEHIND="# Your branch is behind"
+  local AHEAD="# Your branch is ahead"
+  local UNTRACKED="# Untracked files"
+  local DIVERGED="have diverged"
+  local CHANGED="# Changed but not updated"
+  local TO_BE_COMMITED="# Changes to be committed"
+  local NOT_STAGED="# Changes not staged for commit"
+  local LOG=`git log -1 2> /dev/null`
+
+  if [ "$STATUS" != "" ]; then
+    if [[ "$STATUS" =~ "$NOTHING_TO_COMMIT" ]]; then
+      PROMPT_STATUS="!"
+      STATE=""
+    elif [[ "$STATUS" =~ "$DIVERGED" ]]; then
+      PROMPT_STATUS="!"
+      STATE="${STATE}↕"
+    elif [[ "$STATUS" =~ "$BEHIND" ]]; then
+      PROMPT_STATUS="!"
+      STATE="${STATE}↓"
+    elif [[ "$STATUS" =~ "$AHEAD" ]]; then
+      PROMPT_STATUS="!"
+      STATE="${STATE}↑"
+    elif [[ "$STATUS" =~ "$CHANGED" ]]; then
+      PROMPT_STATUS="!"
+      STATE=""
+    elif [[ "$STATUS" =~ "$TO_BE_COMMITED" ]]; then
+      PROMPT_STATUS=""
+      STATE="*"
+    elif [[ "$STATUS" =~ "$NOT_STAGED" ]]; then
+      STATE="!"
+    else
+      PROMPT_STATUS=""
+      STATE=""
+    fi
+
+    if [[ "$STATUS" =~ "$UNTRACKED" ]]; then
+      STATE="${STATE}*"
+    fi
+  fi
+
+  if [[ "$1" != "" ]]; then
+    cd $CURRENT_DIR
+  fi
+
+  echo " $STATE"
+}
+
+custom_term () {
+  STATE=`git_status`
+  DIR_NAME=$(basename `pwd`)
+  DIR="\w"
+  USER="\u"
+  DATE="$(date +%d/%m/%Y)"
+  PC="${HOSTNAME}"
+
+  if [ -s $HOME/.rvm/scripts/rvm ]; then 
+    source $HOME/.rvm/scripts/rvm
+    RUBY_VERSION=`rvm list | grep '=>' | awk '{print $2}'`
+    GEMSET_NAME=`rvm gemset list | grep '=>' | awk '{print $2}'`
+  else
+    if [ -e `ruby -v` ]; then
+      RUBY_VERSION=`ruby -v | awk '{print $1$2}'`
+    fi
+  fi
+
+  title "${DIR_NAME} $(parse_git_branch)${STATE}"
+
+  if [ "$RUBY_VERSION" != "" ]; then
+    PS1="[ ${LIGHT_RED}"
+    PS1+="${RUBY_VERSION} "
+    if [ "$GEMSET_NAME" != "" ]; then
+      PS1+="${RED}@${LIGHT_RED}"
+      PS1+=" ${GEMSET_NAME} "
+    fi
+    PS1+="${NO_COLOR}]${LIGHT_RED} "
+  else
+    PS1="${LIGHT_RED}"
+  fi
+  PS1+="${DIR} "
+  if [ "$(parse_git_branch)" != "" ]; then
+    PS1+="${RED}[$(parse_git_branch)${STATE}]"
+  fi
+  if [ "$RUBY_VERSION" != "" ]; then
+    PS1+="${LIGHT_RED}\n⊗ ${NO_COLOR}"
+  else
+    PS1+="${LIGHT_RED} ⊗ ${NO_COLOR}"
+  fi
+}
+
+PROMPT_COMMAND=custom_term
+
+pid(){
+  ps auwx | perl -anE '$,="\t"; say @F[1,10]' | grep $1
+}
+
+function parse_git_branch {
+  git branch 2> /dev/null | grep "*" | awk '{print $2}'
+}

@@ -1,0 +1,36 @@
+############################
+# Abril
+############################
+
+# ELCO
+alias elco_docs="projects && cd abril/elco/docs"
+alias elco_admin="projects && cd abril/elco/admin"
+alias elco_phs="projects && cd abril/elco/phs"
+alias elco_dls="projects && cd abril/elco/dls"
+alias elco_ess="projects && cd abril/elco/ess"
+alias elco_ess_client="projects && cd abril/elco/ess-client"
+alias elco_avs="projects && cd abril/iba/adobe-vendor-support"
+alias elco_rest_client="projects && cd abril/elco/rest-client"
+alias elco_dls_client="projects && cd abril/elco/dls-client"
+alias elco_asiclient="projects && cd abril/elco/asiclient"
+
+# Gonow
+alias media_server_saraiva="www && cd projects/media-server-saraiva"
+
+# Globo
+alias globo_painel_gonow="projects && cd globo/PainelGoNow"
+
+############################
+# Private
+############################
+
+alias finance_system="projects && cd finance_system"
+alias tamoformando="www && cd projects/tamoformando"
+alias bulldogsividal="www && cd projects/bulldogsividal"
+
+############################
+# General
+############################
+
+alias www="cd $WEB_PATH"
+alias projects="cd $HOME/Documents/projects/"

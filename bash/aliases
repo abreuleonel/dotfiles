@@ -1,0 +1,72 @@
+# Web Path
+export WEB_PATH='/Library/WebServer/Documents'
+
+# RVM
+alias rvmg='rvm gemset'
+
+# PHP
+alias pecl="~/pear/bin/pecl"
+alias pear="~/pear/bin/pear"
+alias phpunit="~/pear/bin/phpunit"
+alias phpdoc="~/pear/bin/phpdoc"
+
+# Zend Framework
+alias zf="$WEB_PATH/ZendFramework-1.11.10/bin/zf.sh"
+
+# Git
+alias gitrm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
+alias gitx="/Applications/GitX.app/Contents/MacOS/GitX ."
+
+# Redis Server
+alias rds-start='/opt/redis-2.2.15/src/redis-server'
+
+# Mongo DB
+alias mongo-start='mongod run  --dbpath /usr/local/Cellar/mongodb/ --rest'
+
+# Memcache
+alias memcache-start='memcached -m 1024 -u root -l 127.0.0.1 -p 11211 –u nobody'
+
+alias ls='ls -lah -G'
+alias ..='cd ..'
+alias env='env | sort'
+#alias grep='grep -rn '
+alias findd='find . -type d | grep -i '
+alias findf='find . -type f | grep -i '
+alias chd='find . -type d -exec chmod 755 {} \;'
+alias chf='find . -type f -exec chmod 664 {} \;'
+alias kountd='for f in *; do printf "%30s %5d\n" $f `find $f d | wc -l`; done'
+alias kountf='for f in *; do printf "%30s %5d\n" $f `find $f f | wc -l`; done'
+alias path='IFS=: && for f in $PATH; do echo $f; done'
+alias ldpath='IFS=: && for f in $LD_LIBRARY_PATH; do echo $f; done'
+alias manpath='IFS=: && for f in $MANPATH; do echo $f; done'
+alias sized='du -h'
+alias hdsize='df -h'
+
+# Vim
+alias mvim="/Applications/MacVim.app/Contents/MacOS/MacVim"
+alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
+alias wpvim="cd wp-content/themes/ && mvim . && cd ../../"
+
+#misc
+export DYLD_LIBRARY_PATH=/opt/oracle/instantclient_10_2
+
+alias psgrep="ps aux | egrep -v egrep | egrep"
+alias showip="curl http://f.simplesideias.com.br/ip.php; echo; ifconfig | grep broadcast | sed 's/.*inet \(.*\) netmask.*/\1/'"
+alias lock="/System/Library/CoreServices/Menu\ Extras/user.menu/Contents/Resources/CGSession -suspend"
+alias top="top -o rsize"
+alias make="make -j 2"
+alias cleanup="sudo rm -rf /private/var/log/asl/*"
+
+# TomCat
+alias tomstart="/usr/local/Cellar/tomcat/7.0.16/libexec/bin/startup.sh"
+alias tomstop="/usr/local/Cellar/tomcat/7.0.16/libexec/bin/shutdown.sh"
+alias tomcat="cd /usr/local/Cellar/tomcat/7.0.16/libexec/webapps/"
+
+# Postgresql
+alias postgrestart="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start"
+alias postgrestop="pg_ctl -D /usr/local/var/postgres stop -s -m fast"
+
+# MySql
+alias mysql-start="sudo /usr/local/mysql/support-files/mysql.server start"
+alias mysql-stop="sudo /usr/local/mysql/support-files/mysql.server stop"
+alias mysql-status="sudo /usr/local/mysql/support-files/mysql.server status"
