@@ -3,6 +3,7 @@ echo 'Deletando arquivos antigos'
 rm -Rf $HOME/.bash_profile
 rm -Rf $HOME/.inputrc
 rm -Rf $HOME/.gemrc
+rm -Rf $HOME/.rspec
 rm -Rf $HOME/.gitconfig
 rm -Rf $HOME/.gitignore
 rm -Rf $HOME/.vimrc
@@ -14,6 +15,7 @@ echo 'Adicionando novos arquivos'
 ln -s $here/bash_profile $HOME/.bash_profile
 ln -s $here/inputrc $HOME/.inputrc
 ln -s $here/gemrc $HOME/.gemrc
+ln -s $here/rspec $HOME/.rspec
 ln -s $here/gitconfig $HOME/.gitconfig
 ln -s $here/gitignore $HOME/.gitignore
 ln -s $here/dotvim $HOME/.vim
