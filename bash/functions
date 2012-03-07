@@ -73,8 +73,7 @@ custom_term () {
 
   if [ -s $HOME/.rvm/scripts/rvm ]; then 
     source $HOME/.rvm/scripts/rvm
-    RUBY_VERSION=`rvm list | grep '=>' | awk '{print $2}'`
-    GEMSET_NAME=`rvm gemset list | grep '=>' | awk '{print $2}'`
+    RUBY_VERSION=`rvm current`
   else
     if [ -e `ruby -v` ]; then
       RUBY_VERSION=`ruby -v | awk '{print $1$2}'`
@@ -83,13 +82,9 @@ custom_term () {
 
   title "${DIR_NAME} $(parse_git_branch)${STATE}"
 
-  if [ "$RUBY_VERSION" != "" ]; then
+  if [ "$RUBY_VERSION" != "system" ]; then
     PS1="[ ${LIGHT_RED}"
     PS1+="${RUBY_VERSION} "
-    if [ "$GEMSET_NAME" != "" ]; then
-      PS1+="${RED}@${LIGHT_RED}"
-      PS1+=" ${GEMSET_NAME} "
-    fi
     PS1+="${NO_COLOR}]${LIGHT_RED} "
   else
     PS1="${LIGHT_RED}"
@@ -98,7 +93,7 @@ custom_term () {
   if [ "$(parse_git_branch)" != "" ]; then
     PS1+="${RED}[$(parse_git_branch)${STATE}]"
   fi
-  if [ "$RUBY_VERSION" != "" ]; then
+  if [ "$RUBY_VERSION" != "system" ]; then
     PS1+="${LIGHT_RED}\n⊗ ${NO_COLOR}"
   else
     PS1+="${LIGHT_RED} ⊗ ${NO_COLOR}"

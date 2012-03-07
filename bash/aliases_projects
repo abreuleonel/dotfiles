@@ -20,6 +20,9 @@ alias media_server_saraiva="www && cd projects/media-server-saraiva"
 # Globo
 alias globo_painel_gonow="projects && cd globo/PainelGoNow"
 
+# Outros
+alias akatus="projects && cd Akatus"
+
 ############################
 # Private
 ############################

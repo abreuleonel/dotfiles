@@ -26,7 +26,7 @@ alias mongo-start='mongod run  --dbpath /usr/local/Cellar/mongodb/ --rest'
 # Memcache
 alias memcache-start='memcached -m 1024 -u root -l 127.0.0.1 -p 11211 –u nobody'
 
-alias ls='ls -lah -G'
+alias ls='ls -lh -G'
 alias ..='cd ..'
 alias env='env | sort'
 #alias grep='grep -rn '
@@ -70,3 +70,11 @@ alias postgrestop="pg_ctl -D /usr/local/var/postgres stop -s -m fast"
 alias mysql-start="sudo /usr/local/mysql/support-files/mysql.server start"
 alias mysql-stop="sudo /usr/local/mysql/support-files/mysql.server stop"
 alias mysql-status="sudo /usr/local/mysql/support-files/mysql.server status"
+
+# Mysql32
+alias mysql32-start="mysql-start"
+alias mysql32-stop="mysql-stop"
+
+# Mysql64
+alias mysql64-start="mysql.server start"
+alias mysql64-stop="mysql.server stop"
