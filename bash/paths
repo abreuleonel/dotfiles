@@ -6,3 +6,5 @@ export PATH="/usr/local/sbin:/usr/local/mysql/bin:$PATH"
 export MANPATH="/usr/local/man:$MANPATH"
 
 export ZZPATH=$HOME/.bash/funcoeszz
+
+export ANDROID_SDK_ROOT=/usr/local/Cellar/android-sdk/r16

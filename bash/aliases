@@ -1,8 +1,15 @@
 # Web Path
 export WEB_PATH='/Library/WebServer/Documents'
 
+# Disable Internet Sharing MacOS
+alias wifi-sharring='/usr/libexec/InternetSharing'
+
 # RVM
 alias rvmg='rvm gemset'
+
+# RailRoady
+alias railroady_models='railroady -a -i -o models.dot -M ; dot -Tpng models.dot > models.png'
+alias railroady_controllers='railroady -C ; neato -Tpng > controllers.png ; neato -Tpng controllers.dot > controllers.png'
 
 # PHP
 alias pecl="~/pear/bin/pecl"
@@ -27,7 +34,9 @@ alias mongo-start='mongod run  --dbpath /usr/local/Cellar/mongodb/ --rest'
 alias memcache-start='memcached -m 1024 -u root -l 127.0.0.1 -p 11211 –u nobody'
 
 alias ls='ls -lh -G'
+alias ll='ls -a'
 alias ..='cd ..'
+alias ...='cd .. && ls -C'
 alias env='env | sort'
 #alias grep='grep -rn '
 alias findd='find . -type d | grep -i '
@@ -45,10 +54,11 @@ alias hdsize='df -h'
 # Vim
 alias mvim="/Applications/MacVim.app/Contents/MacOS/MacVim"
 alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
-alias wpvim="cd wp-content/themes/ && mvim . && cd ../../"
+alias wpvim="cd wp-content/themes/ && vim . && cd ../../"
 
 #misc
-export DYLD_LIBRARY_PATH=/opt/oracle/instantclient_10_2
+#export DYLD_LIBRARY_PATH=/opt/oracle/instantclient_10_2
+export DYLD_LIBRARY_PATH=/opt/oracle_64/instantclient_10_2
 
 alias psgrep="ps aux | egrep -v egrep | egrep"
 alias showip="curl http://f.simplesideias.com.br/ip.php; echo; ifconfig | grep broadcast | sed 's/.*inet \(.*\) netmask.*/\1/'"

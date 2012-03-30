@@ -92,7 +92,7 @@ custom_term () {
   fi
   PS1+="${DIR} "
   if [ "$(parse_git_branch)" != "" ]; then
-    PS1+="${RED}[$(parse_git_branch)${STATE}]"
+    PS1+="${NO_COLOR}[ ${RED}$(parse_git_branch)${STATE}${NO_COLOR} ]"
   fi
   if [ "$RUBY_VERSION" != "system" ]; then
     PS1+="${NO_COLOR}"
@@ -109,6 +109,10 @@ custom_term () {
 }
 
 PROMPT_COMMAND=custom_term
+
+sudopid(){
+  sudo ps auwx | perl -anE '$,="\t"; say @F[1,10]' | grep $1
+}
 
 pid(){
   ps auwx | perl -anE '$,="\t"; say @F[1,10]' | grep $1

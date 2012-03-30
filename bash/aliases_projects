@@ -10,9 +10,10 @@ alias elco_dls="projects && cd abril/elco/dls"
 alias elco_ess="projects && cd abril/elco/ess"
 alias elco_ess_client="projects && cd abril/elco/ess-client"
 alias elco_avs="projects && cd abril/iba/adobe-vendor-support"
-alias elco_rest_client="projects && cd abril/elco/rest-client"
 alias elco_dls_client="projects && cd abril/elco/dls-client"
-alias elco_asiclient="projects && cd abril/elco/asiclient"
+alias elco_asi_client="projects && cd abril/elco/asiclient"
+alias elco_rest_client="projects && cd abril/elco/rest-client-elco"
+alias elco_heatbeat="projects && cd abril/elco/heartbeat"
 
 # Gonow
 alias media_server_saraiva="www && cd projects/media-server-saraiva"
@@ -30,6 +31,7 @@ alias akatus="projects && cd Akatus"
 alias finance_system="projects && cd finance_system"
 alias tamoformando="www && cd projects/tamoformando"
 alias bulldogsividal="www && cd projects/bulldogsividal"
+alias middleware_restaurante="www && cd projects/middleware_restaurante"
 
 ############################
 # General

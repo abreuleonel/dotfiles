@@ -7,12 +7,17 @@
   branch	= auto
   ui		= true
 [alias]
+  pl            = pull
+  plr           = pull --rebase
   ci		= commit -am
   co		= checkout
+  cof		= checkout --force
   b		= branch
+  s		= stash
   st		= status -s
   who		= shortlog -s --
   dfword	= diff --word-diff
+  df    	= diff
   l		= log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%an %cr)%Creset' --abbrev-commit --date=relative
   commits	= log -p --format='\n\n\n%C(yellow)================================================================================\n%C(yellow)%h %s %C(white)%an%Creset'
 [core]

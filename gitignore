@@ -7,5 +7,6 @@ pkg
 tmp
 coverage
 *.sw?
+*.orig
 .rvmrc
 .rspec
