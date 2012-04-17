@@ -1,0 +1,31 @@
+# Elco
+Host dls_qa
+  HostName 172.16.2.69
+  User dls
+  Port 22
+
+Host ess_qa
+  HostName 172.16.2.69
+  User ess
+  Port 22
+
+Host dls_dev
+  HostName 172.16.2.71
+  User dls
+  Port 5022
+
+Host ess_dev
+  HostName 172.16.2.71
+  User ess
+  Port 5022
+
+Host elco_prod01
+  HostName 172.16.156.10
+  User logviewer
+  Port 5022
+
+# iVidal
+Host ividal.org
+  HostName ividal.org
+  User root
+  Port 22

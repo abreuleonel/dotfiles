@@ -9,6 +9,7 @@ rm -Rf $HOME/.gitconfig
 rm -Rf $HOME/.gitignore
 rm -Rf $HOME/.vimrc
 rm -Rf $HOME/.bash
+rm -Rf $HOME/.ssh/config
 echo '=========='
 echo 'Adicionando novos arquivos'
 clear
@@ -23,6 +24,7 @@ ln -s $here/gitignore $HOME/.gitignore
 ln -s $here/dotvim $HOME/.vim
 ln -s $here/vimrc $HOME/.vimrc
 ln -s $here/bash $HOME/.bash
+ln -s $here/sshconfig $HOME/.ssh/config
 echo 'Atualizando Terminal'
 source $HOME/.bash_profile
 

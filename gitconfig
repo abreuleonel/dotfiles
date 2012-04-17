@@ -7,8 +7,10 @@
   branch	= auto
   ui		= true
 [alias]
+  br            = branch -av
   pl            = pull
   plr           = pull --rebase
+  ph            = push
   ci		= commit -am
   co		= checkout
   cof		= checkout --force

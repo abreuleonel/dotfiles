@@ -29,6 +29,7 @@ alias akatus="projects && cd Akatus"
 ############################
 
 alias finance_system="projects && cd finance_system"
+alias controlandogastos="projects && cd controlandogastos"
 alias tamoformando="www && cd projects/tamoformando"
 alias bulldogsividal="www && cd projects/bulldogsividal"
 alias middleware_restaurante="www && cd projects/middleware_restaurante"

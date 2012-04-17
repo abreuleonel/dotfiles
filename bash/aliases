@@ -8,7 +8,7 @@ alias wifi-sharring='/usr/libexec/InternetSharing'
 alias rvmg='rvm gemset'
 
 # RailRoady
-alias railroady_models='railroady -a -i -o models.dot -M ; dot -Tpng models.dot > models.png'
+alias railroady_models='railroady -a -i -o models.dot -M ; dot -Tpng models.dot > models.png; rm models.dot'
 alias railroady_controllers='railroady -C ; neato -Tpng > controllers.png ; neato -Tpng controllers.dot > controllers.png'
 
 # PHP
