@@ -52,8 +52,6 @@ alias sized='du -h'
 alias hdsize='df -h'
 
 # Vim
-alias mvim="/Applications/MacVim.app/Contents/MacOS/MacVim"
-alias vim="/Applications/MacVim.app/Contents/MacOS/Vim"
 alias wpvim="cd wp-content/themes/ && vim . && cd ../../"
 
 #misc
