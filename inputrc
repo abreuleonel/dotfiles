@@ -8,12 +8,29 @@
 "\e[B": history-search-forward
 "\e[A": history-search-backward
 
+"\e[C": forward-char
+"\e[D": backward-char
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+"\e[7~": beginning-of-line
+"\e[8~": end-of-line
+"\eOH": beginning-of-line
+"\eOF": end-of-line
+"\e[H": beginning-of-line
+"\e[F": end-of-line
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+"\e[5C": forward-word
+"\e[5D": backward-word
+"\e\e[C": forward-word
+"\e\e[D": backward-word
+
 # this lets you hit tab to auto-complete a file or
 # directory name ignoring case
-set completion-ignore-case On
+set completion-ignore-case on
+set show-all-if-ambiguous on
 
 set meta-flag on
 set input-meta on
 set output-meta on
 set convert-meta off
-

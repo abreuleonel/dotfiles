@@ -1,42 +1,19 @@
 ############################
+# General
+############################
+alias www='cd /Library/WebServer/Documents/'
+alias projects='cd $HOME/Documents/projects/'
+
+############################
 # Abril
 ############################
-
-# ELCO
-alias elco_docs="projects && cd abril/elco/docs"
-alias elco_admin="projects && cd abril/elco/admin"
-alias elco_phs="projects && cd abril/elco/phs"
-alias elco_dls="projects && cd abril/elco/dls"
-alias elco_ess="projects && cd abril/elco/ess"
-alias elco_ess_client="projects && cd abril/elco/ess-client"
-alias elco_avs="projects && cd abril/iba/adobe-vendor-support"
-alias elco_dls_client="projects && cd abril/elco/dls-client"
-alias elco_asi_client="projects && cd abril/elco/asiclient"
-alias elco_rest_client="projects && cd abril/elco/rest-client-elco"
-alias elco_heatbeat="projects && cd abril/elco/heartbeat"
-
-# Gonow
-alias media_server_saraiva="www && cd projects/media-server-saraiva"
-
-# Globo
-alias globo_painel_gonow="projects && cd globo/PainelGoNow"
-
-# Outros
-alias akatus="projects && cd Akatus"
+# IBA
+alias elco='projects && cd abril/elco'
+alias iba='projects && cd abril/elco/iba'
+alias iba2='projects && cd abril/elco/iba2'
 
 ############################
 # Private
 ############################
-
-alias finance_system="projects && cd finance_system"
-alias controlandogastos="projects && cd controlandogastos"
-alias tamoformando="www && cd projects/tamoformando"
-alias bulldogsividal="www && cd projects/bulldogsividal"
-alias middleware_restaurante="www && cd projects/middleware_restaurante"
-
-############################
-# General
-############################
-
-alias www="cd $WEB_PATH"
-alias projects="cd $HOME/Documents/projects/"
+alias finance_system='projects && cd finance_system'
+alias controlandogastos='projects && cd controlandogastos'

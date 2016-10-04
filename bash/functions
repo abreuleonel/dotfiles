@@ -6,23 +6,39 @@ reload() {
   source ~/.bash_profile;
 }
 
+git_stash(){
+  if [[ "$1" != "" ]]; then
+    local CURRENT_DIR=`pwd`
+    cd $1
+  fi
+
+  local STASH=`git stash list 2> /dev/null`
+
+  if [ "$STASH" != "" ]; then
+    STASH="§"
+  fi
+
+  echo "$STASH"
+}
+
 git_status(){
   if [[ "$1" != "" ]]; then
     local CURRENT_DIR=`pwd`
     cd $1
   fi
 
-  local STATUS=`git status 2>/dev/null`
+  local STATUS=`git status 2> /dev/null | sed '4q;d'`
   local PROMPT_STATUS=""
   local STATE=""
-  local NOTHING_TO_COMMIT="# Initial commit"
-  local BEHIND="# Your branch is behind"
-  local AHEAD="# Your branch is ahead"
-  local UNTRACKED="# Untracked files"
+  #local NOTHING_TO_COMMIT="Initial commit"
+  local NOTHING_TO_COMMIT="nothing to commit"
+  local BEHIND="Your branch is behind"
+  local AHEAD="Your branch is ahead"
+  local UNTRACKED="Untracked files"
   local DIVERGED="have diverged"
-  local CHANGED="# Changed but not updated"
-  local TO_BE_COMMITED="# Changes to be committed"
-  local NOT_STAGED="# Changes not staged for commit"
+  local CHANGED="Changed but not updated"
+  local TO_BE_COMMITED="Changes to be committed"
+  local NOT_STAGED="Changes not staged for commit"
   local LOG=`git log -1 2> /dev/null`
 
   if [ "$STATUS" != "" ]; then
@@ -60,55 +76,86 @@ git_status(){
     cd $CURRENT_DIR
   fi
 
-  echo " $STATE"
+  echo "$STATE"
+}
+
+function parse_git_branch {
+  git branch 2> /dev/null | grep "*" | awk '{print $2}'
+}
+
+ruby_version () {
+  #RUBY_VERSION=`ruby -v | awk '{print $1$2}'`
+  if [ -s $HOME/.rvm/scripts/rvm ]; then
+    source $HOME/.rvm/scripts/rvm
+    RUBY_VERSION=`rvm current`
+  fi
+
+  if [[ "$RUBY_VERSION" == "" ]]; then
+    RUBY_VERSION="system"
+  fi
+
+  echo $RUBY_VERSION
 }
 
 custom_term () {
   STATE=`git_status`
+  STASH=`git_stash`
+  RUBY_VERSION=`ruby_version`
   DIR_NAME=$(basename `pwd`)
   DIR="\w"
-  USER="\u"
-  DATE="$(date +%d/%m/%Y)"
+  #USER="\u"
+  #DATE="$(date +%d/%m/%Y)"
   TIME="\t"
-  PC="${HOSTNAME}"
+  #PC="${HOSTNAME}"
+  local without_color=""
+  local right_side=""
 
-  if [ -s $HOME/.rvm/scripts/rvm ]; then 
+  if [ "$RUBY_VERSION" != "system" ]; then
     source $HOME/.rvm/scripts/rvm
-    RUBY_VERSION=`rvm current`
-  else
-    if [ -e `ruby -v` ]; then
-      RUBY_VERSION=`ruby -v | awk '{print $1$2}'`
-    fi
   fi
 
   title "${DIR_NAME} $(parse_git_branch)${STATE}"
 
   if [ "$RUBY_VERSION" != "system" ]; then
-    PS1="[ ${LIGHT_RED}"
-    PS1+="${RUBY_VERSION} "
-    PS1+="${NO_COLOR}]${LIGHT_RED} "
+    PS1="${GRAY}${ON_BLACK} ${RUBY_VERSION} ${BLACK}${ON_GREEN}⮀"
+    without_color+=" ${RUBY_VERSION} ⮀"
   else
-    PS1="${LIGHT_RED}"
+    PS1=""
   fi
-  PS1+="${DIR} "
   if [ "$(parse_git_branch)" != "" ]; then
-    PS1+="${NO_COLOR}[ ${RED}$(parse_git_branch)${STATE}${NO_COLOR} ]"
+    PS1+="${BLACK}"
+    if [ "$STATE" == "*" ]; then
+      GIT_COLOR="${ON_GREEN}"
+      BACK_GIT_COLOR="${STASH}${GREEN}"
+    elif [ "$STATUS" == "↕" -o "$STATUS" == "↓" ]; then
+      GIT_COLOR="${ON_YELLOW}"
+      BACK_GIT_COLOR="${STASH}${YELLOW}"
+    elif [ "$STATUS" == "" ]; then
+      GIT_COLOR="${ON_GREEN} ⭠"
+      without_color+=" ⭠"
+      BACK_GIT_COLOR="${STASH}${GREEN}"
+    else
+      GIT_COLOR="${ON_YELLOW}"
+      BACK_GIT_COLOR="${YELLOW}"
+    fi
+    PS1+="${GIT_COLOR} ${STATE}$(parse_git_branch) ${BACK_GIT_COLOR}${ON_BLUE}⮀"
+    without_color+=" ${STATE}$(parse_git_branch) ⮀"
   fi
+  PS1+="${WHITE}${ON_BLUE} ${DIR} ${BLUE}⮀"
+  without_color+=" ${DIR} ⮀ "
   if [ "$RUBY_VERSION" != "system" ]; then
-    PS1+="${NO_COLOR}"
-    PS1+=" [ "
-    PS1+="${LIGHT_RED}"
-    PS1+="${TIME}"
-    PS1+="${NO_COLOR}"
-    PS1+=" ]"
-    PS1+="${LIGHT_RED}"
-    PS1+="\n⊗ ${NO_COLOR}"
-  else
-    PS1+="${LIGHT_RED} ⊗ ${NO_COLOR}"
-  fi
-}
+    right_side+="${NO_COLOR}${RED} ${TIME}"
+    without_color+="${right_side}xxxxxxxxx"
 
-PROMPT_COMMAND=custom_term
+    let fillsize=${COLUMNS}-${#without_color}
+    if [ "$fillsize" -gt "0" ]; then
+      fill="                                                                                                                                                                                                                                                                                                                                                                                                                                 "
+      fill="${fill:0:${fillsize}}"
+    fi
+    PS1+="${fill}${right_side}\n"
+  fi
+  PS1+="${NO_COLOR}${WHITE} ⊗ ${NO_COLOR}"
+}
 
 sudopid(){
   sudo ps auwx | perl -anE '$,="\t"; say @F[1,10]' | grep $1
@@ -118,6 +165,91 @@ pid(){
   ps auwx | perl -anE '$,="\t"; say @F[1,10]' | grep $1
 }
 
-function parse_git_branch {
-  git branch 2> /dev/null | grep "*" | awk '{print $2}'
+# remove duplicates while preserving input order
+function dedup {
+  awk '! x[$0]++' $@
 }
+
+# removes $HISTIGNORE commands from input
+function remove_histignore {
+  if [ -n "$HISTIGNORE" ]; then
+    # replace : with |, then * with .*
+    local IGNORE_PAT=`echo "$HISTIGNORE" | sed s/\:/\|/g | sed s/\*/\.\*/g`
+      # negated grep removes matches
+      grep -vx "$IGNORE_PAT" $@
+  else
+    cat $@
+  fi
+}
+
+# clean up the history file by remove duplicates and commands matching
+# $HISTIGNORE entries
+function history_cleanup {
+  local HISTFILE_SRC=~/.bash_history
+  local HISTFILE_DST=/tmp/.$USER.bash_history.clean
+  if [ -f $HISTFILE_SRC ]; then
+    \cp $HISTFILE_SRC $HISTFILE_SRC.backup
+    dedup $HISTFILE_SRC | remove_histignore >| $HISTFILE_DST
+    \mv $HISTFILE_DST $HISTFILE_SRC
+    chmod go-r $HISTFILE_SRC
+    history -c
+    history -r
+  fi
+}
+
+function showip {
+  echo -n "NET "; curl http://ividal.net/ip.php
+  echo
+  echo -n "Ethernet "; ifconfig | grep broadcast | sed 's/.*inet \(.*\) netmask.*/\1/'
+  ifconfig eth0 | grep 'inet addr' | sed 's/.*inet addr:\([0-9.]*\).*/\1/'
+  echo -n "Wifi "; ifconfig wlan0 | grep 'inet addr' | sed 's/.*inet addr:\([0-9.]*\).*/\1/'
+}
+
+function all_colours {
+  for i in {0..255} ; do
+    printf "\x1b[38;5;${i}mcolour${i}\t"
+  done
+}
+
+function jira_way {
+  tmux new-session -s jira_way -d
+  #tmux command-prompt -t jira_way:1 'rename-window "IRB DLS"'
+  tmux new-window  -t jira_way:2 -n 'IRB DLS' 'ssh v-iba-fe01  -t "cd /abd/app/dls/current; sudo su dls -c \"irb -r init; bash --login\""'
+  tmux new-window  -t jira_way:3 -n 'LOG DLS' 'ssh v-iba-fe01  -t "cd /data_logs/dls; bash --login"'
+  tmux new-window  -t jira_way:4 -n 'LOG ESS' 'ssh v-iba-fe01  -t "cd /data_logs/ess; bash --login"'
+  tmux new-window  -t jira_way:5 -n 'IRB ESS' 'ssh v-iba-ess01 -t "cd /abd/app/ess/current; irb -r /abd/app/ess/current/init.rb; bash --login"'
+
+  tmux select-window -t jira_way:2
+  tmux -2 attach-session -t jira_way
+}
+
+function zzzcpf {
+  if [ ! -x "zzcpf" ]; then
+    source_zz
+  fi
+  zzcpf | sed 's/[^0-9]//g'
+}
+
+function git_remote_branch {
+  echo "git branch $1"
+  echo "git push -u origin $@"
+  echo "git checkout $@"
+}
+
+function hitch_now {
+  gem list hitch | grep -i "hitch" &> /dev/null
+  if [ $? -eq 0 ]; then
+    hitch() {
+      command hitch "$@"
+        if [[ -s "$HOME/.hitch_export_authors" ]] ; then source "$HOME/.hitch_export_authors" ; fi
+    }
+    alias unhitch='hitch -u'
+    hitch
+  fi
+}
+
+function source_zz {
+  source $ZZPATH # funcoeszz
+}
+
+PROMPT_COMMAND=custom_term

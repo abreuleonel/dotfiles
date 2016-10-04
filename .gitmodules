@@ -1,0 +1,6 @@
+[submodule "funcoeszz"]
+	path = funcoeszz
+	url = https://github.com/aureliojargas/funcoeszz.git
+[submodule "dotvim"]
+	path = dotvim
+	url = git@github.com:euricovidal/dotvim.git

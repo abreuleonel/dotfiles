@@ -1,13 +1,17 @@
 #editor
 export EDITOR='vim'
-export GIT_EDITOR="vim"
-export CC="/usr/bin/gcc-4.2"
+export GIT_EDITOR='vim'
+#export CC='/usr/bin/gcc'
+export VAGRANT_LOG='info'
+export LSCOLORS='Gxfxcxdxbxegedabagacad'
 
 #history
-export HISTCONTROL=erasedups
+export HISTCONTROL=erasedups:ignorespace:ignoreboth:ignoredups
 export HISTFILESIZE=100000
 export HISTSIZE=${HISTFILESIZE}
-export SAVEHIST=100000
+export SAVEHIST=1000000
+export HISTIGNORE=ls:ll:pwd:exit:ps:history:..:...:cd
+export HISTTIMEFORMAT="%d %h %Y %H:%M:%S > "
 
 #grep
 export GREP_OPTIONS="--color=auto"
@@ -61,6 +65,16 @@ export ON_PURPLE='\e[45m'      # Purple
 export ON_CYAN='\e[46m'        # Cyan
 export ON_WHITE='\e[47m'       # White
 
+# High Intensty backgrounds
+export ON_IBLACK='\e[0;100m'   # Black
+export ON_IRED='\e[0;101m'     # Red
+export ON_IGREEN='\e[0;102m'   # Green
+export ON_IYELLOW='\e[0;103m'  # Yellow
+export ON_IBLUE='\e[0;104m'    # Blue
+export ON_IPURPLE='\e[10;95m'  # Purple
+export ON_ICYAN='\e[0;106m'    # Cyan
+export ON_IWHITE='\e[0;107m'   # White
+
 # High Intensty
 export IBLACK='\e[0;90m'       # Black
 export IRED='\e[0;91m'         # Red
@@ -81,16 +95,6 @@ export BIPURPLE='\e[1;95m'     # Purple
 export BICYAN='\e[1;96m'       # Cyan
 export BIWHITE='\e[1;97m'      # White
 
-# High Intensty backgrounds
-export ON_IBLACK='\e[0;100m'   # Black
-export ON_IRED='\e[0;101m'     # Red
-export ON_IGREEN='\e[0;102m'   # Green
-export ON_IYELLOW='\e[0;103m'  # Yellow
-export ON_IBLUE='\e[0;104m'    # Blue
-export ON_IPURPLE='\e[10;95m'  # Purple
-export ON_ICYAN='\e[0;106m'    # Cyan
-export ON_IWHITE='\e[0;107m'   # White
-
 # Colours
 export NO_COLOR="\[\e[0m\]"
 export BLUE="\[\033[0;34m\]"
@@ -106,12 +110,33 @@ export WHITE="\[\033[1;37m\]"
 export YELLOW="\[\033[0;33m\]"
 export NICE_BLUE="\[\033[0;36m\]"
 
+if [[ $OSTYPE == linux-gnu ]]; then
+  export OS_NAME='linux'
+elif [[ $OSTYPE == darwin* ]]; then
+  export OS_NAME='mac'
+elif [[ $OSTYPE == win* ]]; then
+  export OS_NAME='windows'
+elif [[ $OSTYPE == freebsd ]]; then
+  export OS_NAME='freebsd'
+else
+  export OS_NAME='unknown'
+fi
+
 shopt -s cdspell
 shopt -s nocaseglob
 shopt -s checkwinsize
 shopt -s dotglob
 shopt -s extglob
 shopt -s progcomp
+shopt -s histappend
+shopt -s autocd
+shopt -s cdable_vars
+shopt -s globstar
+shopt -s hostcomplete
 set -o ignoreeof
-bind "set completion-ignore-case on"      # ignore case on bash completion
-bind "set mark-symlinked-directories on"  # add trailing slash to symlinked directories
+
+if [ "$OS_NAME" == 'mac' ]; then
+  bind "set mark-symlinked-directories on"  # add trailing slash to symlinked directories
+elif [ "$OS_NAME" == 'linux' ]; then
+  export RUBYOPT=-Ku
+fi

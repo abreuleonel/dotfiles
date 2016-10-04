@@ -1,6 +1,3 @@
-# Web Path
-export WEB_PATH='/Library/WebServer/Documents'
-
 # Disable Internet Sharing MacOS
 alias wifi-sharring='/usr/libexec/InternetSharing'
 
@@ -8,8 +5,9 @@ alias wifi-sharring='/usr/libexec/InternetSharing'
 alias rvmg='rvm gemset'
 
 # RailRoady
-alias railroady_models='railroady -a -i -o models.dot -M ; dot -Tpng models.dot > models.png; rm models.dot'
-alias railroady_controllers='railroady -C ; neato -Tpng > controllers.png ; neato -Tpng controllers.dot > controllers.png'
+alias railroady_models='railroady -a -i -m -o models.dot -M ; dot -Tpng models.dot > models.png; rm models.dot'
+alias railroady_controllers='railroady -C | neato -Tpng > controllers.png'
+
 
 # PHP
 alias pecl="~/pear/bin/pecl"
@@ -17,28 +15,43 @@ alias pear="~/pear/bin/pear"
 alias phpunit="~/pear/bin/phpunit"
 alias phpdoc="~/pear/bin/phpdoc"
 
-# Zend Framework
-alias zf="$WEB_PATH/ZendFramework-1.11.10/bin/zf.sh"
+# TMUX
+alias tmux="tmux -2"
 
 # Git
 alias gitrm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
-alias gitx="/Applications/GitX.app/Contents/MacOS/GitX ."
-
-# Redis Server
-alias rds-start='/opt/redis-2.2.15/src/redis-server'
+alias gst='git st'
 
 # Mongo DB
 alias mongo-start='mongod run  --dbpath /usr/local/Cellar/mongodb/ --rest'
 
 # Memcache
-alias memcache-start='memcached -m 1024 -u root -l 127.0.0.1 -p 11211 –u nobody'
+alias memcache-start='/usr/local/bin/memcached -m 1024 -u root -l 127.0.0.1 -p 11211 –u nobody'
 
+# PostGre
+alias pg_start='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
+alias pg_stop='pg_ctl -D /usr/local/var/postgres stop -s -m fast'
+#alias postgre.server='sudo -u postgres pg_ctl -D/Library/PostgreSQL/9.2/data'
+
+# Underscore JQ
+alias jq="~/Downloads/jq '.'"
+
+
+# SVN
+alias svnadd="svn st | grep '^?' | awk '{print $2}' | xargs svn add"
+alias svnrm="find . -type d -name .svn | xargs rm -rf"
+
+# SoapUI
+alias soapui="sh /home/euricovidal/Downloads/soapui-4.5.1/bin/soapui.sh > /dev/null 2>&1 &"
+
+# Vim
+alias wpvim='cd wp-content/themes/ && vim . && cd ../../'
+
+alias lc='ls -C'
 alias ls='ls -lh -G'
 alias ll='ls -a'
-alias ..='cd ..'
 alias ...='cd .. && ls -C'
 alias env='env | sort'
-#alias grep='grep -rn '
 alias findd='find . -type d | grep -i '
 alias findf='find . -type f | grep -i '
 alias chd='find . -type d -exec chmod 755 {} \;'
@@ -48,41 +61,13 @@ alias kountf='for f in *; do printf "%30s %5d\n" $f `find $f f | wc -l`; done'
 alias path='IFS=: && for f in $PATH; do echo $f; done'
 alias ldpath='IFS=: && for f in $LD_LIBRARY_PATH; do echo $f; done'
 alias manpath='IFS=: && for f in $MANPATH; do echo $f; done'
-alias sized='du -h'
+alias sized='du -h -d 0'
+alias sudo_sized='sudo du -h -d'
 alias hdsize='df -h'
-
-# Vim
-alias wpvim="cd wp-content/themes/ && vim . && cd ../../"
-
-#misc
-#export DYLD_LIBRARY_PATH=/opt/oracle/instantclient_10_2
-export DYLD_LIBRARY_PATH=/opt/oracle_64/instantclient_10_2
-
 alias psgrep="ps aux | egrep -v egrep | egrep"
-alias showip="curl http://f.simplesideias.com.br/ip.php; echo; ifconfig | grep broadcast | sed 's/.*inet \(.*\) netmask.*/\1/'"
-alias lock="/System/Library/CoreServices/Menu\ Extras/user.menu/Contents/Resources/CGSession -suspend"
 alias top="top -o rsize"
 alias make="make -j 2"
 alias cleanup="sudo rm -rf /private/var/log/asl/*"
 
-# TomCat
-alias tomstart="/usr/local/Cellar/tomcat/7.0.16/libexec/bin/startup.sh"
-alias tomstop="/usr/local/Cellar/tomcat/7.0.16/libexec/bin/shutdown.sh"
-alias tomcat="cd /usr/local/Cellar/tomcat/7.0.16/libexec/webapps/"
-
-# Postgresql
-alias postgrestart="pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start"
-alias postgrestop="pg_ctl -D /usr/local/var/postgres stop -s -m fast"
-
-# MySql
-alias mysql-start="sudo /usr/local/mysql/support-files/mysql.server start"
-alias mysql-stop="sudo /usr/local/mysql/support-files/mysql.server stop"
-alias mysql-status="sudo /usr/local/mysql/support-files/mysql.server status"
-
-# Mysql32
-alias mysql32-start="mysql-start"
-alias mysql32-stop="mysql-stop"
-
-# Mysql64
-alias mysql64-start="mysql.server start"
-alias mysql64-stop="mysql.server stop"
+alias grep="/bin/grep $GREP_OPTIONS"
+unset GREP_OPTIONS
